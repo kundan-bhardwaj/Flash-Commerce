@@ -9,16 +9,24 @@
 
 <body
     style="background-color: black;color: azure;display: flex;height: 100vh;align-items: center;justify-content: center;flex-direction: column;">
-    <div style="padding: 1rem;border-radius: 1rem;background-color: rgb(46, 46, 46);">
+    <div style="box-shadow: rgba(181, 181, 255, 0.2) 0px 7px 29px 0px;padding: 1rem;border-radius: 1rem;background-color: rgba(151, 151, 151, 0.527);">
         <h1>Welcome to Flash Commerce</h1>
         <div>
             {% if user.is_authenticated %}
             <a style="font-size: larger;" href="/auth/logout">Log Out</a>
+            <h2>Head over to following urls</h2>
+            <div style="font-size: larger;">
+                <a href="/products">products</a>
+            </div>
             {% else %}
             <a style="font-size: larger;" href="/auth/login">Log In</a>
+            <h2>Head over to following urls</h2>
+            <div style="font-size: larger;">
+                <a href="/products">products</a>
+                <a href="/orders">orders</a>
+            </div>
             {% endif %}
         </div>
-        <h2>Head over to following urls</h2>
     </div>
 </body>
 
