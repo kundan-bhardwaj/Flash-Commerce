@@ -2,7 +2,7 @@
     "version": 2,
     "builds": [
       {
-        "src": "test1/wsgi.py",
+        "src": "FlashCommerce/wsgi.py",
         "use": "@vercel/python",
         "config": { "maxLambdaSize": "15mb", "runtime": "python3.9" }
       }
@@ -14,7 +14,7 @@
       },
       {
         "src": "/(.*)",
-        "dest": "test1/wsgi.py"
+        "dest": "FlashCommerce/wsgi.py"
       }
     ],
     "outputDirectory": "staticfiles"
