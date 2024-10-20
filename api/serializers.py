@@ -17,3 +17,12 @@ class OrderSerializer(serializers.ModelSerializer):
     class Meta:
         model = Order
         fields = '__all__'
+
+class PlaceOrder(serializers.ModelSerializer):
+    product = serializers.CharField(source='product__OrderItem')
+    quantity = serializers.CharField(source='quantity__OrderItem')
+    price = serializers.CharField(source='price__OrderItem')
+
+    class Meta:
+        model = Order
+        fields = ('total_price', 'status', 'product', 'quantity', 'price')

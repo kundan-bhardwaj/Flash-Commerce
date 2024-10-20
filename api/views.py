@@ -3,7 +3,7 @@ from rest_framework.permissions import IsAuthenticated, IsAdminUser
 from rest_framework.response import Response
 from rest_framework import status
 from .models import Product, Order, OrderItem
-from .serializers import ProductSerializer, OrderSerializer, OrderItemSerializer
+from .serializers import *
 from django.shortcuts import render
 
 
@@ -64,13 +64,15 @@ def create_order(request):
         return Response(serializer.data)
 
     if request.method == 'POST':
-        serializer = OrderSerializer(data=request.data)
+        serializer = PlaceOrder(data=request.data)
         if serializer.is_valid():
-            serializer.save(customer=request.user)
-            ord = Order.objects.get(id = serializer.data.id)
-            for item in ord.orderitem_set.all():
-                item.product.stock -= item.quantity
-                item.product.save()
+            order = Order.objects.create(customer = request.user, total_price = serializer.data['total_price'], status = serializer.data['status'])
+            order.save()
+            product = Product.objects.get(id = serializer.data['product'])
+            item = OrderItem(order = order, product = product, quantity = serializer.data['quantity'], price = serializer.data['price'])
+            item.save()
+            item.product.stock = item.product.stock - int(serializer.data['quantity'])
+            item.product.save()
             return Response(serializer.data, status=status.HTTP_201_CREATED)
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
@@ -101,10 +103,10 @@ def cancel_order(request, pr):
         order.status = 'canceled'
         order.save()
         # Restock the products
-        for item in order.orderitem_set.all():
-            item.product.stock += item.quantity
+        items = OrderItem.objects.filter(order = order.id)
+        for item in items:
+            item.product.stock = item.product.stock + item.quantity
             item.product.save()
-
         return Response({'status': 'Order canceled'}, status=status.HTTP_200_OK)
 
 @api_view(['PUT'])
