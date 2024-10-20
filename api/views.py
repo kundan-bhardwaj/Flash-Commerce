@@ -4,6 +4,12 @@ from rest_framework.response import Response
 from rest_framework import status
 from .models import Product, Order, OrderItem
 from .serializers import ProductSerializer, OrderSerializer, OrderItemSerializer
+from django.shortcuts import render
+
+
+
+def custom_404_view(request, exception):
+    return render(request, '404.html', status=404)
 
 # Product Views
 @api_view(['GET', 'POST'])

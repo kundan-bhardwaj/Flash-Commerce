@@ -14,6 +14,8 @@ Including another URLconf
     1. Import the include() function: from django.urls import include, path
     2. Add a URL to urlpatterns:  path('blog/', include('blog.urls'))
 """
+from django.conf import settings
+from django.conf.urls.static import static
 from django.contrib import admin
 from django.urls import path, include
 from api.views import *
@@ -29,4 +31,6 @@ urlpatterns = [
     path('orders/<int:pr>/ship/', ship_order, name='ship-order'),
     path('orders/<int:pr>/deliver/', deliver_order, name='deliver-order'),
 
-]
+] 
+
+handler404 = 'api.views.custom_404_view'

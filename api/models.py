@@ -5,8 +5,8 @@ class Product(models.Model):
     name = models.CharField(max_length=1000)
     description = models.CharField(max_length=10000)
     price = models.DecimalField(max_digits=10, decimal_places=2)
-    stock = models.IntegerField(help_text="please enter a number")
-    created_at = models.DateField(auto_now=True,editable=False)
+    stock = models.PositiveIntegerField(help_text="please enter a number")
+    created_at = models.DateField(auto_now_add=True,editable=False)
     updated_at = models.DateField(auto_now=True)
 
 class Order(models.Model):
@@ -20,7 +20,7 @@ class Order(models.Model):
     customer = models.ForeignKey(User,on_delete=models.CASCADE)
     product = models.ManyToManyField(Product, through="OrderItem")
     total_price = models.DecimalField(max_digits=20, decimal_places=2)
-    ordered_at = models.DateField(auto_now=True)
+    ordered_at = models.DateTimeField(auto_now=True)
     status = models.CharField(max_length=10,choices=CHOICES)
     
 
