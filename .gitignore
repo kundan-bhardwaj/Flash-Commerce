@@ -1,5 +1,4 @@
 .env
 static/
-staticfiles/
 api/migrations/
 .vscode/
