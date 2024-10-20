@@ -1,0 +1,6 @@
+.env
+/api/migrations
+/.vscode
+/api/__pycache__
+/static
+/staticfiles
